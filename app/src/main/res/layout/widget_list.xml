@@ -38,8 +38,8 @@
             android:layout_height="match_parent"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:visibility="gone"
-            tools:listitem="@layout/list_item_quote"/>
+            android:listSelector="@android:color/transparent"
+            tools:listitem="@layout/widget_list_item"/>
 
         <TextView
             android:id="@+id/widget_empty"

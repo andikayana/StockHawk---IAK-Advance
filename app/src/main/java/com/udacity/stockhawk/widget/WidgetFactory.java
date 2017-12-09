@@ -24,10 +24,13 @@ import timber.log.Timber;
 
 public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    public WidgetFactory(Context mContext, Intent mIntent) {
+
+
+    public WidgetFactory(Context mContext, Intent intent) {
         this.mContext = mContext;
+        this.intent = intent;
         mCursor = null;
-        this.mIntent = mIntent;
+
 
         dollarFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.US);
         percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
@@ -52,8 +55,8 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final int INDEX_PERCENTAGE_CHANGE = 2;
 
     private final Context mContext;
+    private final Intent intent;
     private Cursor mCursor;
-    private  Intent mIntent;
 
     private final DecimalFormat dollarFormat;
     private final DecimalFormat percentageFormat;
@@ -70,6 +73,7 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     public void onDataSetChanged() {
         if (mCursor != null) {
             mCursor.close();
+
         }
 
         final long identityToken = Binder.clearCallingIdentity();
