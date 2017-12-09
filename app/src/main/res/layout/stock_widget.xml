@@ -28,7 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/widget_content"
         android:orientation="vertical"
         tools:ignore="PrivateResource">
 
@@ -36,16 +35,13 @@
             android:id="@+id/widget_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:listSelector="@android:color/transparent"
-            tools:listitem="@layout/widget_list_item"/>
+            tools:listitem="@layout/list_item_quote"/>
 
         <TextView
             android:id="@+id/widget_empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Stock information is not available. T_T"/>
+            android:text="No Stock information"/>
     </LinearLayout>
 </LinearLayout>

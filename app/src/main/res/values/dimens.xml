@@ -6,4 +6,41 @@ Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+
+
+    <!--Main Activity-->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_translation_z">12dp</dimen>
+
+    <!--Add Stock Dialog-->
+    <dimen name="dialog_base_margin">4dp</dimen>
+    <dimen name="dialog_top_margin">16dp</dimen>
+
+    <!--Single list item layout-->
+    <dimen name="item_padding_base">16dp</dimen>
+    <dimen name="item_padding_text">3dp</dimen>
+    <dimen name="item_cardview_padding">2dp</dimen>
+
+    <!--Widget-->
+    <dimen name="widget_default_height">110dp</dimen>
+    <dimen name="widget_default_width">180dp</dimen>
+    <dimen name="widget_default_resize_width">110dp</dimen>
+    <dimen name="widget_default_resize_height">40dp</dimen>
+    <dimen name="widget_list_item_height">40dp</dimen>
+    <dimen name="widget_list_item_padding">@dimen/item_padding_base</dimen>
+    <dimen name="widget_price_percent_width">60dp</dimen>
+
+    <!--Elevation-->
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="recyclerview_elevation">2dp</dimen>
+
+    <!--Chart activity-->
+    <dimen name="details_base_padding">16dp</dimen>
+    <dimen name="details_base_margin">16dp</dimen>
+    <dimen name="details_base_margin_half">8dp</dimen>
+    <dimen name="details_chart_margin">16dp</dimen>
+    <dimen name="marker_border_width">1dp</dimen>
+    <dimen name="marker_padding">2dp</dimen>
+    <dimen name="marker_radius">1dp</dimen>
 </resources>
