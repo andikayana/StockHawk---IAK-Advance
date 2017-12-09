@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
@@ -124,7 +125,7 @@ public final class QuoteSyncJob {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context, stock + " is invalid", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, context.getString(R.string.stock_is_invalid), Toast.LENGTH_SHORT).show();
                                     }
                                 });
 

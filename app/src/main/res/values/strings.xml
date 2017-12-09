@@ -39,5 +39,7 @@
     <string name="stock_already_in_list">%s is already in List</string>
     <string name="stock_evolution">Currently displaying stockevolution in %s</string>
     <string name="price_of_stock">Price of stock is %s</string>
+    <string name="no_stock_information">No Stock information</string>
+    <string name="stock_is_invalid">%s is invalid</string>
 
 </resources>

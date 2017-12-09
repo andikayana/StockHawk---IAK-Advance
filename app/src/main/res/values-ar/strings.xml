@@ -1,0 +1,44 @@
+<resources>
+    <!--App Name-->
+    <string name="app_name">Stock Hawk</string>
+
+    <!--Preferences-->
+    <string name="pref_stocks_initialized_key" translatable="false">تهيئة</string>
+    <string name="pref_stocks_key">مخازن</string>
+    <string name="pref_display_mode_key">وضع العرض</string>
+    <string name="pref_display_mode_default">@string/pref_display_mode_percentage_key</string>
+    <string name="pref_display_mode_absolute_key">مطلق</string>
+    <string name="pref_display_mode_percentage_key">النسبة المئوية</string>
+
+    <!--Defult Stock-->
+    <string name="default_stocks_yahoo">YHOO</string>
+    <string name="default_stocks_apple">AAPL</string>
+    <string name="default_stocks_microsoft">MSFT</string>
+    <string name="default_stocks_facebook">FB</string>
+
+    <!--Action Name-->
+    <string name="action_change_units">@string/pref_display_mode_key</string>
+
+    <!--Stock Dialog-->
+    <string name="dialog_title">إضافة سهم</string>
+    <string name="dialog_hint">(GOOG مثال)رمز</string>
+    <string name="dialog_cancel">إلغاء</string>
+    <string name="dialog_add">إضافة</string>
+
+    <!--Error Dialog-->
+    <string name="error_no_network">لا اتصال الشبكة! سيتم تحميل مؤشر الأسهم عندما تكون الشبكة متاحة.</string>
+    <string name="error_no_stocks">لم يتم إضافة أي أسهم! ضرب زر العمل العائمة لإضافة واحد.</string>
+
+    <!--Toas-->
+    <string name="toast_stock_added_no_connectivity"> تمت إضافة الرمز %s. سيتم تحديث عندما الشبكة المتاحة.رمز</string>
+    <string name="toast_no_connectivity">سيتم تحديث عندما الشبكة المتاحة.</string>
+    <string name="appwidget_text">مثال</string>
+    <string name="add_widget">إضافة القطعة</string>
+    <string name="add_new_stock">كليك لإضافة الأسهم</string>
+    <string name="stock_value_chart">مخطط قيمة الأسهم</string>
+    <string name="stock_already_in_list">%s موجود بالفعل في القائمة</string>
+    <string name="stock_evolution">يعرض حاليا ستوكيفولوتيون في s%</string>
+    <string name="price_of_stock">سعر السهم هو s%</string>
+    <string name="no_stock_information">لا معلومات الأسهم</string>
+
+</resources>
