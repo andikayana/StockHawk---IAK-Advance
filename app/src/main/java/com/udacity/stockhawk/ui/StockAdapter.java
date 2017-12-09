@@ -40,16 +40,13 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     }
 
     String getSymbolAtPosition(int position) {
-
         cursor.moveToPosition(position);
         return cursor.getString(Contract.Quote.POSITION_SYMBOL);
     }
 
     @Override
     public StockViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View item = LayoutInflater.from(context).inflate(R.layout.list_item_quote, parent, false);
-
         return new StockViewHolder(item);
     }
 
@@ -62,9 +59,9 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
         holder.symbol.setText(cursor.getString(Contract.Quote.POSITION_SYMBOL));
         holder.symbol.setContentDescription(cursor.getString(Contract.Quote.POSITION_NAME));
         holder.symbol.setTag(cursor.getString(Contract.Quote.POSITION_NAME));
-
+        holder.name.setText(cursor.getString(Contract.Quote.POSITION_NAME));
         String price = MyNumberFormat.dollarFormat().format(cursor.getFloat(Contract.Quote.POSITION_PRICE));
-
+        holder.price.setText(price);
         holder.price.setContentDescription(context.getString(R.string.price_of_stock, price));
 
 
@@ -114,6 +111,8 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         @BindView(R.id.change)
         TextView change;
+
+        @BindView(R.id.name) TextView name;
 
         StockViewHolder(View itemView) {
             super(itemView);
