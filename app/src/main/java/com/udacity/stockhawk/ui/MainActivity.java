@@ -169,8 +169,10 @@ public class MainActivity extends AppCompatActivity implements
         if (PrefUtils.getDisplayMode(this)
                 .equals(getString(R.string.pref_display_mode_absolute_key))) {
             item.setIcon(R.drawable.ic_percentage);
+            item.setTitle(getResources().getString(R.string.stock_evolution, '$'));
         } else {
             item.setIcon(R.drawable.ic_dollar);
+            item.setTitle(getResources().getString(R.string.stock_evolution, "percentage"));
         }
     }
 

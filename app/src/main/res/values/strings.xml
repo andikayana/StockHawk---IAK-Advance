@@ -37,5 +37,7 @@
     <string name="add_new_stock">Clikc to add stock</string>
     <string name="stock_value_chart">Stock value chart</string>
     <string name="stock_already_in_list">%s is already in List</string>
+    <string name="stock_evolution">Currently displaying stockevolution in %s</string>
+    <string name="price_of_stock">Price of stock is %s</string>
 
 </resources>

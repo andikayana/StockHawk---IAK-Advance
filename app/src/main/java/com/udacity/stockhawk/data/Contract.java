@@ -4,8 +4,6 @@ package com.udacity.stockhawk.data;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.google.common.collect.ImmutableList;
-
 public final class Contract {
 
     static final String AUTHORITY = "com.udacity.stockhawk";

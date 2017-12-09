@@ -11,8 +11,7 @@ import java.util.Locale;
 public final class MyNumberFormat {
 
     public static DecimalFormat dollarFormat(){
-        DecimalFormat df = (DecimalFormat)NumberFormat.getCurrencyInstance(Locale.US);
-        return df;
+        return (DecimalFormat)NumberFormat.getCurrencyInstance(Locale.US);
     }
 
     public static DecimalFormat dollarFormatWithPlus(){

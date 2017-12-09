@@ -6,11 +6,11 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.math.BigDecimal;
-import android.icu.text.SimpleDateFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.os.Looper;
+import android.widget.Toast;
 
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
@@ -23,15 +23,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.temporal.ChronoUnit;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,13 +48,10 @@ public final class QuoteSyncJob {
     private static final LocalDate startDate = LocalDate.now().minus(YEARS_OF_HISTORY, ChronoUnit.YEARS);
     private static final LocalDate endDate = LocalDate.now();
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static StringBuilder historyBuilder = new StringBuilder();
-
-
 
     private QuoteSyncJob() { }
 
-    static HttpUrl createQuery(String symbol) {
+    private static HttpUrl createQuery(String symbol) {
 
         HttpUrl.Builder httpUrl = HttpUrl.parse(QUANDL_ROOT+symbol+".json").newBuilder();
         httpUrl.addQueryParameter("column_index", "4")  //closing price
@@ -71,7 +60,7 @@ public final class QuoteSyncJob {
         return httpUrl.build();
     }
 
-    static ContentValues processStock(JSONObject jsonObject) throws JSONException{
+    private static ContentValues processStock(JSONObject jsonObject) throws JSONException{
 
         String stockSymbol = jsonObject.getString("dataset_code");
         String name = jsonObject.getString("name");
@@ -91,18 +80,6 @@ public final class QuoteSyncJob {
         double change = price - historicData.getJSONArray(1).getDouble(1);
         double percentChange = 100 * (( price - historicData.getJSONArray(1).getDouble(1) ) / historicData.getJSONArray(1).getDouble(1));
 
-//        historyBuilder = new StringBuilder();
-//
-//        for (int i = 0; i<historicData.length(); i++) {
-//            JSONArray array = historicData.getJSONArray(i);
-//            // Append date
-//            historyBuilder.append(array.get(0));
-//            historyBuilder.append(", ");
-//            // Append close
-//            historyBuilder.append(array.getDouble(1));
-//            historyBuilder.append("\n");
-//        }
-
         ContentValues quoteCV = new ContentValues();
         quoteCV.put(Contract.Quote.COLUMN_SYMBOL, stockSymbol);
         quoteCV.put(Contract.Quote.COLUMN_NAME, name);
@@ -115,16 +92,14 @@ public final class QuoteSyncJob {
     }
 
     static void getQuotes(final Context context) {
-
+        final Handler mHandler = new Handler(Looper.getMainLooper());
         Timber.d("Running sync job");
-
-       // historyBuilder = new StringBuilder();
 
         try {
 
             Set<String> stockPref = PrefUtils.getStocks(context);
 
-            for (String stock : stockPref) {
+            for (final String stock : stockPref) {
                 Request request = new Request.Builder()
                         .url(createQuery(stock)).build();
 
@@ -142,7 +117,19 @@ public final class QuoteSyncJob {
                             ContentValues quotes = processStock(jsonObject.getJSONObject("dataset"));
 
                             context.getContentResolver().insert(Contract.Quote.URI,quotes);
-                        } catch(JSONException ex){}
+                        } catch(JSONException ex){
+                            int code = response.code();
+                            if (code == 404 || code == 400) {
+                                PrefUtils.removeStock(context, stock);
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, stock + " is invalid", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                        }
                     }
                 });
 
@@ -189,7 +176,7 @@ public final class QuoteSyncJob {
 
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        NetworkInfo networkInfo = cm != null ? cm.getActiveNetworkInfo() : null;
         if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
             Intent nowIntent = new Intent(context, QuoteIntentService.class);
             context.startService(nowIntent);

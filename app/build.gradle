@@ -21,8 +21,8 @@ android {
     buildTypes {
 
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFile "proguard-butterknife-7.pro"
             proguardFile "proguard-google-play-services.pro"
             proguardFile "proguard-guava.pro"
