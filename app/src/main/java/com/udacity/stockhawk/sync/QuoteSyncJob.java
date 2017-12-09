@@ -10,6 +10,7 @@ import android.icu.math.BigDecimal;
 import android.icu.text.SimpleDateFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Looper;
 
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -72,6 +74,16 @@ public final class QuoteSyncJob {
     static ContentValues processStock(JSONObject jsonObject) throws JSONException{
 
         String stockSymbol = jsonObject.getString("dataset_code");
+        String name = jsonObject.getString("name");
+        if (name.indexOf('(') != -1)
+            name = name.substring(0, name.indexOf('(') - 1);
+        else
+            name = "Undefined";
+        System.out.println(name);
+
+        if(stockSymbol == null){
+            return null;
+        }
 
         JSONArray historicData = jsonObject.getJSONArray("data");
 
@@ -79,24 +91,25 @@ public final class QuoteSyncJob {
         double change = price - historicData.getJSONArray(1).getDouble(1);
         double percentChange = 100 * (( price - historicData.getJSONArray(1).getDouble(1) ) / historicData.getJSONArray(1).getDouble(1));
 
-        historyBuilder = new StringBuilder();
-
-        for (int i = 0; i<historicData.length(); i++) {
-            JSONArray array = historicData.getJSONArray(i);
-            // Append date
-            historyBuilder.append(array.get(0));
-            historyBuilder.append(", ");
-            // Append close
-            historyBuilder.append(array.getDouble(1));
-            historyBuilder.append("\n");
-        }
+//        historyBuilder = new StringBuilder();
+//
+//        for (int i = 0; i<historicData.length(); i++) {
+//            JSONArray array = historicData.getJSONArray(i);
+//            // Append date
+//            historyBuilder.append(array.get(0));
+//            historyBuilder.append(", ");
+//            // Append close
+//            historyBuilder.append(array.getDouble(1));
+//            historyBuilder.append("\n");
+//        }
 
         ContentValues quoteCV = new ContentValues();
         quoteCV.put(Contract.Quote.COLUMN_SYMBOL, stockSymbol);
+        quoteCV.put(Contract.Quote.COLUMN_NAME, name);
         quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
         quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
         quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
-        quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
+        quoteCV.put(Contract.Quote.COLUMN_HISTORY, "Placeholder");
 
         return quoteCV;
     }
@@ -105,7 +118,7 @@ public final class QuoteSyncJob {
 
         Timber.d("Running sync job");
 
-        historyBuilder = new StringBuilder();
+       // historyBuilder = new StringBuilder();
 
         try {
 

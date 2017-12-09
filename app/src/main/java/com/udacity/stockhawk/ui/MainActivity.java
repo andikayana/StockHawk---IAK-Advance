@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,11 +29,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor>,
         SwipeRefreshLayout.OnRefreshListener,
         StockAdapter.StockAdapterOnClickHandler {
 
     private static final int STOCK_LOADER = 0;
+    public static final String STOCK_SYMBOL = "STOCK_SYMBOL";
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.recycler_view)
     RecyclerView stockRecyclerView;
@@ -45,8 +48,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private StockAdapter adapter;
 
     @Override
-    public void onClick(String symbol) {
+    public void onClick(String symbol, String tag) {
         Timber.d("Symbol clicked: %s", symbol);
+        Intent i = new Intent(this, DetailActivity.class);
+        i.putExtra(Intent.EXTRA_TEXT, new String[]{symbol, tag});
+        startActivity(i);
     }
 
     @Override
@@ -55,10 +61,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        adapter = new StockAdapter(this, this);
-        stockRecyclerView.setAdapter(adapter);
-        stockRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setRefreshing(true);
@@ -80,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
             }
         }).attachToRecyclerView(stockRecyclerView);
+
+
+        adapter = new StockAdapter(this, this);
+        stockRecyclerView.setAdapter(adapter);
+        stockRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
 
     }
