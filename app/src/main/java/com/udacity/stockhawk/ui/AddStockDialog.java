@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,8 +15,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.data.Contract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,9 +72,24 @@ public class AddStockDialog extends DialogFragment {
     private void addStock() {
         Activity parent = getActivity();
         if (parent instanceof MainActivity) {
-            ((MainActivity) parent).addStock(stock.getText().toString());
+           // ((MainActivity) parent).addStock(stock.getText().toString());
+            String myStock = stock.getText().toString();
+            if(!isStockInDb((MainActivity) parent, myStock))
+            ((MainActivity) parent).addStock(myStock);
+            else
+                Toast.makeText(parent, getString(R.string.stock_already_in_list, myStock), Toast.LENGTH_SHORT).show();
         }
         dismissAllowingStateLoss();
+    }
+
+    private boolean isStockInDb(MainActivity parent, String myStock){
+        Cursor c = parent.getContentResolver().query(Contract.Quote.URI,
+                new String[]{Contract.Quote.COLUMN_SYMBOL},
+                        Contract.Quote.COLUMN_SYMBOL + "= ?",
+                        new String[] {myStock}, null);
+        if (c.getCount() == 0)
+            return false;
+        return true;
     }
 
 
