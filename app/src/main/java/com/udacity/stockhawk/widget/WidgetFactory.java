@@ -87,15 +87,15 @@ public class WidgetFactory extends RemoteViewsService {
                 if (rawAbsoluteChange > 0) {
                     views.setInt(
                             R.id.change,
-                            "setBackgroundColor",
-                            ContextCompat.getColor(getBaseContext(), R.color.material_green_700)
+                            "setBackgroundColor", R.drawable.percent_change_pill_green
                     );
                 } else {
                     views.setInt(
                             R.id.change,
-                            "setBackgroundColor",
-                            ContextCompat.getColor(getBaseContext(), R.color.material_red_700)
+                            "setBackgroundColor", R.drawable.percent_change_pill_red
                     );
+
+                    views.setContentDescription(R.id.symbol, name);
                 }
 
                 final Intent fillInIntent = new Intent();
@@ -107,7 +107,7 @@ public class WidgetFactory extends RemoteViewsService {
 
             @Override
             public RemoteViews getLoadingView() {
-                return new RemoteViews(getBaseContext().getPackageName(), R.layout.list_item_quote);
+                return new RemoteViews(getPackageName(), R.layout.list_item_quote);
             }
 
             @Override

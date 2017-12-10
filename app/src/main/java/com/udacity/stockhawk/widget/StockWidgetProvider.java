@@ -27,7 +27,8 @@ public class StockWidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
-        views.setEmptyView(R.id.widget_list, R.id.widget_empty);
+        views.setRemoteAdapter(R.id.widget_list, new Intent(context, WidgetFactory.class));
+        //views.setEmptyView(R.id.widget_list, R.id.widget_empty);
 
         boolean useDataActivity = context.getResources()
                 .getBoolean(R.bool.use_deail_activity);
