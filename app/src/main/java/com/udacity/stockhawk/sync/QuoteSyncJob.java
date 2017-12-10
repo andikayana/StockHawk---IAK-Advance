@@ -125,7 +125,7 @@ public final class QuoteSyncJob {
                                 mHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context, stock + "is invalid", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, stock + " is invalid", Toast.LENGTH_SHORT).show();
                                     }
                                 });
 

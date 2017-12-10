@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(String symbol, String tag) {
-        Timber.d("Symbol clicked: %s", symbol);
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra(Intent.EXTRA_TEXT, new String[]{symbol, tag});
         startActivity(i);
@@ -104,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements
 
         QuoteSyncJob.syncImmediately(this);
 
-        if (!networkUp() && adapter.getItemCount() == 0) {
+        if (!networkUp()) {
+            swipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
+        } else  if (!networkUp() && adapter.getItemCount() == 0) {
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_network));
             error.setVisibility(View.VISIBLE);
-        } else if (!networkUp()) {
-            swipeRefreshLayout.setRefreshing(false);
-            Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
         } else if (PrefUtils.getStocks(this).size() == 0) {
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_stocks));
