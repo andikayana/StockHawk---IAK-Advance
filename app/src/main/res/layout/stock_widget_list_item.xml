@@ -36,10 +36,11 @@
             android:layout_width="@dimen/widget_price_percent_width"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/widget_list_item_padding"
-            android:gravity="end"
+            android:gravity="center"
             tools:text="+99.99%"
             android:background="@drawable/percent_change_pill_green"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
 
 </LinearLayout>

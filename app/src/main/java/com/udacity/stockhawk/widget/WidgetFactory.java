@@ -87,12 +87,12 @@ public class WidgetFactory extends RemoteViewsService {
                 if (rawAbsoluteChange > 0) {
                     views.setInt(
                             R.id.change,
-                            "setBackgroundColor", R.drawable.percent_change_pill_green
+                            "setBackgroundResource", R.drawable.percent_change_pill_green
                     );
                 } else {
                     views.setInt(
                             R.id.change,
-                            "setBackgroundColor", R.drawable.percent_change_pill_red
+                            "setBackgroundResource", R.drawable.percent_change_pill_red
                     );
 
                     views.setContentDescription(R.id.symbol, name);
